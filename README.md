@@ -15,6 +15,11 @@
 npm install cache-storage-chunk-store
 ```
 
+or include it directly:
+```html
+<script src="https://cdn.jsdelivr.net/npm/cache-storage-chunk-store@1/dist/cache-storage-chunk-store.min.js"></script>
+```
+
 ## Usage
 
 ``` js
