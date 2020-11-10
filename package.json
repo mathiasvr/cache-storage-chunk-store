@@ -2,7 +2,25 @@
   "name": "cache-storage-chunk-store",
   "version": "0.0.2",
   "description": "Browser CacheStorage chunk store that is abstract-chunk-store compliant",
+  "author": "Mathias Rasmussen <mathiasvr@gmail.com>",
+  "license": "MIT",
   "main": "index.js",
+  "keywords": [
+    "CacheStorage",
+    "browser",
+    "cache",
+    "chunk",
+    "store",
+    "abstract-chunk-store"
+  ],
+  "homepage": "https://github.com/mathiasvr/cache-storage-chunk-store#readme",
+  "bugs": {
+    "url": "https://github.com/mathiasvr/cache-storage-chunk-store/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathiasvr/cache-storage-chunk-store.git"
+  },
   "scripts": {
     "test": "standard"
   },
@@ -13,15 +31,5 @@
     "abstract-chunk-store": "^1.0.0",
     "standard": "*",
     "tape": "^4.1.0"
-  },
-  "author": "Mathias Rasmussen <mathiasvr@gmail.com>",
-  "license": "MIT",
-  "keywords": [
-    "CacheStorage",
-    "browser",
-    "cache",
-    "chunk",
-    "store",
-    "abstract-chunk-store"
-  ]
+  }
 }
