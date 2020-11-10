@@ -45,7 +45,6 @@ class Storage {
       headers: { 'Content-Type': 'application/octet-stream' }
     })
 
-    // todo name
     window.caches.open(this.name).then((cache) => {
       cache
         .put('/index/' + index, response)
@@ -75,7 +74,6 @@ class Storage {
         const fail = (err) => callcb(cb, err)
 
         const readChunk = ({ done, value }) => {
-          // Is there no more data to read?
           if (done) {
             if (!opts) return callcb(cb, null, buf)
             const offset = opts.offset || 0
