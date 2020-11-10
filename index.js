@@ -93,7 +93,13 @@ class Storage {
     })
   }
 
-  close (cb) { }
+  close (cb) { 
+    if (this.closed) return nextTick(cb, new Error('Storage is closed'))
+
+    this.closed = true
+
+    callcb(cb, null)
+  }
 
   destroy (cb) {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
