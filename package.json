@@ -23,14 +23,21 @@
   },
   "scripts": {
     "test": "standard",
-    "web": "npx wzrd test.js"
+    "web": "npx wzrd test.js",
+    "bundle": "webpack --entry=./index.js --devtool=source-map --output-library=CacheStorageChunkStore --output-filename=cache-storage-chunk-store.min.js",
+    "prepare": "npm run bundle",
+    "prepublishOnly": "npm test"
   },
   "dependencies": {
+    "buffer": "^6.0.2",
     "queue-microtask": "^1.2.0"
   },
   "devDependencies": {
     "abstract-chunk-store": "^1.0.0",
     "standard": "*",
-    "tape": "^5.0.1"
-  }
+    "tape": "^5.0.1",
+    "webpack": "^5.4.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "files": ["dist"]
 }

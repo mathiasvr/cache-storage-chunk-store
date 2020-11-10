@@ -1,4 +1,5 @@
 const queueMicrotask = require('queue-microtask')
+const Buffer = require('buffer')
 
 class Storage {
   constructor (chunkLength, opts) {
