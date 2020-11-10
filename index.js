@@ -79,8 +79,7 @@ class Storage {
             if (!opts) return callcb(cb, null, buf)
             const offset = opts.offset || 0
             const len = opts.length || buf.length - offset
-            callcb(cb, null, buf.slice(offset, len + offset))
-            return
+            return callcb(cb, null, buf.slice(offset, len + offset))
           }
 
           buf = buf ? Buffer.concat([buf, Buffer.from(value)]) : Buffer.from(value)
@@ -93,7 +92,7 @@ class Storage {
     })
   }
 
-  close (cb) { 
+  close (cb) {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
     this.closed = true
