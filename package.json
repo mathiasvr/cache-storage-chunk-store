@@ -30,6 +30,6 @@
   "devDependencies": {
     "abstract-chunk-store": "^1.0.0",
     "standard": "*",
-    "tape": "^4.1.0"
+    "tape": "^5.0.1"
   }
 }
