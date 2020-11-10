@@ -1,0 +1,27 @@
+{
+  "name": "cache-storage-chunk-store",
+  "version": "0.0.1",
+  "description": "Browser CacheStorage chunk store that is abstract-chunk-store compliant",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard"
+  },
+  "dependencies": {
+    "queue-microtask": "^1.2.0"
+  },
+  "devDependencies": {
+    "abstract-chunk-store": "^1.0.0",
+    "standard": "*",
+    "tape": "^4.1.0"
+  },
+  "author": "Mathias Rasmussen <mathiasvr@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "CacheStorage",
+    "browser",
+    "cache",
+    "chunk",
+    "store",
+    "abstract-chunk-store"
+  ]
+}
