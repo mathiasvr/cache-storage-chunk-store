@@ -42,7 +42,10 @@ class Storage {
 
     const response = new window.Response(stream, {
       status: 200,
-      headers: { 'Content-Type': 'application/octet-stream' }
+      headers: {
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': buf.length
+      }
     })
 
     window.caches.open(this.name).then((cache) => {
