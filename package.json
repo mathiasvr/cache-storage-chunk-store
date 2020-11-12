@@ -1,6 +1,6 @@
 {
   "name": "cache-storage-chunk-store",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Browser CacheStorage chunk store that is abstract-chunk-store compliant",
   "author": "Mathias Rasmussen <mathiasvr@gmail.com>",
   "license": "MIT",
