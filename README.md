@@ -17,7 +17,7 @@ npm install cache-storage-chunk-store
 
 or include it directly:
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cache-storage-chunk-store@1/dist/cache-storage-chunk-store.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cache-storage-chunk-store@1.x/dist/cache-storage-chunk-store.min.js"></script>
 ```
 
 ## Usage
@@ -28,6 +28,8 @@ const CacheStorageChunkStore = require('cache-storage-chunk-store')
 const chunks = new CacheStorageChunkStore(10)
 
 chunks.put(0, buffer, (err) => console.error(err))
+
+chunks.get(0, (err, buf) => console.log(err, buf))
 ```
 
 ## License
