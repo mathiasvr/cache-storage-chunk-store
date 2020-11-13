@@ -71,25 +71,26 @@ class Storage {
           return callcb(cb, err)
         }
 
-        let buf
+        const isLastChunk = index === this.lastChunkIndex
+        const bytes = new Uint8Array(isLastChunk ? this.lastChunkLength : this.chunkLength)
+
         const reader = response.body.getReader()
 
-        const fail = (err) => callcb(cb, err)
-
-        const readChunk = ({ done, value }) => {
+        let offset = 0
+        reader.read().then(function readChunk ({ done, value }) {
           if (done) {
+            const buf = Buffer.from(bytes)
             if (!opts) return callcb(cb, null, buf)
             const offset = opts.offset || 0
             const len = opts.length || buf.length - offset
             return callcb(cb, null, buf.slice(offset, len + offset))
           }
 
-          buf = buf ? Buffer.concat([buf, Buffer.from(value)]) : Buffer.from(value)
+          bytes.set(value, offset)
+          offset += value.length
 
-          reader.read().then(readChunk).catch(fail)
-        }
-
-        reader.read().then(readChunk).catch(fail)
+          return reader.read().then(readChunk)
+        }).catch((err) => callcb(cb, err))
       })
     })
   }
@@ -99,7 +100,7 @@ class Storage {
 
     this.closed = true
 
-    callcb(cb, null)
+    nextTick(cb, null)
   }
 
   destroy (cb) {
