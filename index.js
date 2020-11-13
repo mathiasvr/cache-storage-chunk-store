@@ -1,6 +1,8 @@
 const queueMicrotask = require('queue-microtask')
 const Buffer = require('buffer').Buffer
 
+function noop () {}
+
 class Storage {
   constructor (chunkLength, opts) {
     if (!window || !window.caches) throw new Error('Not supported on this platform')
@@ -21,7 +23,7 @@ class Storage {
     }
   }
 
-  put (index, buf, cb) {
+  put (index, buf, cb = noop) {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
     const isLastChunk = index === this.lastChunkIndex
@@ -51,11 +53,11 @@ class Storage {
     window.caches.open(this.name).then((cache) => {
       cache
         .put('/index/' + index, response)
-        .then(() => callcb(cb, null))
+        .then(() => cb(null))
     })
   }
 
-  get (index, opts, cb) {
+  get (index, opts, cb = noop) {
     if (typeof opts === 'function') {
       cb = opts
       opts = null
@@ -68,7 +70,7 @@ class Storage {
         if (!response) {
           const err = new Error('Chunk not found')
           err.notFound = true
-          return callcb(cb, err)
+          return cb(err)
         }
 
         const isLastChunk = index === this.lastChunkIndex
@@ -80,22 +82,22 @@ class Storage {
         reader.read().then(function readChunk ({ done, value }) {
           if (done) {
             const buf = Buffer.from(bytes)
-            if (!opts) return callcb(cb, null, buf)
+            if (!opts) return cb(null, buf)
             const offset = opts.offset || 0
             const len = opts.length || buf.length - offset
-            return callcb(cb, null, buf.slice(offset, len + offset))
+            return cb(null, buf.slice(offset, len + offset))
           }
 
           bytes.set(value, offset)
           offset += value.length
 
           return reader.read().then(readChunk)
-        }).catch((err) => callcb(cb, err))
+        }).catch(cb)
       })
     })
   }
 
-  close (cb) {
+  close (cb = noop) {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
     this.closed = true
@@ -103,7 +105,7 @@ class Storage {
     nextTick(cb, null)
   }
 
-  destroy (cb) {
+  destroy (cb = noop) {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
     this.closed = true
@@ -114,7 +116,7 @@ class Storage {
           cache.delete(request)
         })
 
-        callcb(cb, null)
+        cb(null)
       })
     })
   }
@@ -122,10 +124,6 @@ class Storage {
 
 function nextTick (cb, err, val) {
   if (cb) queueMicrotask(() => cb(err, val))
-}
-
-function callcb (cb, err, val) {
-  if (cb) cb(err, val)
 }
 
 module.exports = Storage
