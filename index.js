@@ -1,4 +1,3 @@
-const queueMicrotask = require('queue-microtask')
 const Buffer = require('buffer').Buffer
 
 function noop () {}
@@ -123,7 +122,7 @@ class Storage {
 }
 
 function nextTick (cb, err, val) {
-  if (cb) queueMicrotask(() => cb(err, val))
+  queueMicrotask(() => cb(err, val))
 }
 
 module.exports = Storage

@@ -29,8 +29,7 @@
     "prepublishOnly": "npm test"
   },
   "dependencies": {
-    "buffer": "^6.0.2",
-    "queue-microtask": "^1.2.0"
+    "buffer": "^6.0.2"
   },
   "devDependencies": {
     "abstract-chunk-store": "^1.0.0",
