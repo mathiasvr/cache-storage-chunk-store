@@ -3,11 +3,10 @@ const Buffer = require('buffer').Buffer
 function noop () {}
 
 class Storage {
-  constructor (chunkLength, opts) {
+  constructor (chunkLength, opts = {}) {
     if (!window || !window.caches) throw new Error('Not supported on this platform')
 
     if (!(this instanceof Storage)) return new Storage(chunkLength, opts)
-    if (!opts) opts = {}
 
     this.chunkLength = Number(chunkLength)
     if (!this.chunkLength) { throw new Error('First argument must be a chunk length') }
