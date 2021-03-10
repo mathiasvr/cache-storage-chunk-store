@@ -33,14 +33,7 @@ class Storage {
       return nextTick(cb, new Error('Chunk length must be ' + this.chunkLength))
     }
 
-    const stream = new window.ReadableStream({
-      start (controller) {
-        controller.enqueue(buf)
-        controller.close()
-      }
-    })
-
-    const response = new window.Response(stream, {
+    const response = new window.Response(buf, {
       status: 200,
       headers: {
         'Content-Type': 'application/octet-stream',
@@ -71,25 +64,12 @@ class Storage {
           return cb(err)
         }
 
-        const isLastChunk = index === this.lastChunkIndex
-        const bytes = new Uint8Array(isLastChunk ? this.lastChunkLength : this.chunkLength)
-
-        const reader = response.body.getReader()
-
-        let offset = 0
-        reader.read().then(function readChunk ({ done, value }) {
-          if (done) {
-            const buf = Buffer.from(bytes)
-            if (!opts) return cb(null, buf)
-            const offset = opts.offset || 0
-            const len = opts.length || buf.length - offset
-            return cb(null, buf.slice(offset, len + offset))
-          }
-
-          bytes.set(value, offset)
-          offset += value.length
-
-          return reader.read().then(readChunk)
+        response.arrayBuffer().then((arrayBuffer) => {
+          const buf = Buffer.from(arrayBuffer)
+          if (!opts) return cb(null, buf)
+          const offset = opts.offset || 0
+          const len = opts.length || buf.length - offset
+          return cb(null, buf.slice(offset, len + offset))
         }).catch(cb)
       })
     })
