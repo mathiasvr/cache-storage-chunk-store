@@ -74,7 +74,7 @@ class Storage {
           const offset = opts.offset || 0
           const len = opts.length || buf.length - offset
           return cb(null, buf.slice(offset, len + offset))
-        }).catch(cb)
+        }, cb)
       })
     })
   }
