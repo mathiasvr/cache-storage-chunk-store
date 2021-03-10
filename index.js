@@ -71,8 +71,13 @@ class Storage {
         response.arrayBuffer().then((arrayBuffer) => {
           const buf = Buffer.from(arrayBuffer)
           if (!opts) return cb(null, buf)
+
           const offset = opts.offset || 0
-          const len = opts.length || buf.length - offset
+          const len = opts.length || (buf.length - offset)
+
+          if (opts.offset === 0 && len === buf.length - offset) {
+            return cb(null, buf)
+          }
           return cb(null, buf.slice(offset, len + offset))
         }, cb)
       })
