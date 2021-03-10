@@ -33,7 +33,11 @@ class Storage {
       return nextTick(cb, new Error('Chunk length must be ' + this.chunkLength))
     }
 
-    const response = new window.Response(buf, {
+    // Even though new Response() can take buf directly, creating a Blob first
+    // is significantly faster in Chrome and Firefox
+    const blob = new window.Blob([buf])
+
+    const response = new window.Response(blob, {
       status: 200,
       headers: {
         'Content-Type': 'application/octet-stream',
