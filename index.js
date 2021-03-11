@@ -19,6 +19,8 @@ class Storage {
       this.lastChunkLength = this.length % this.chunkLength || this.chunkLength
       this.lastChunkIndex = Math.ceil(this.length / this.chunkLength) - 1
     }
+
+    this.cachePromise = window.caches.open(this.name)
   }
 
   put (index, buf, cb = noop) {
@@ -45,7 +47,7 @@ class Storage {
       }
     })
 
-    window.caches.open(this.name).then((cache) => {
+    this.cachePromise.then((cache) => {
       cache
         .put('/index/' + index, response)
         .then(() => cb(null))
@@ -60,7 +62,7 @@ class Storage {
 
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
-    window.caches.open(this.name).then((cache) => {
+    this.cachePromise.then((cache) => {
       cache.match('/index/' + index).then((response) => {
         if (!response) {
           const err = new Error('Chunk not found')
@@ -96,6 +98,7 @@ class Storage {
     if (this.closed) return nextTick(cb, new Error('Storage is closed'))
 
     this.closed = true
+    this.cachePromise = null
 
     window.caches.open(this.name).then((cache) => {
       cache.keys().then((keys) => {
