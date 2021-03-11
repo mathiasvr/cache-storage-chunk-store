@@ -75,7 +75,7 @@ class Storage {
           const offset = opts.offset || 0
           const len = opts.length || (buf.length - offset)
 
-          if (opts.offset === 0 && len === buf.length - offset) {
+          if (offset === 0 && len === buf.length) {
             return cb(null, buf)
           }
           return cb(null, buf.slice(offset, len + offset))
