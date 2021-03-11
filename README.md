@@ -32,11 +32,6 @@ chunks.put(0, buffer, (err) => console.error(err))
 chunks.get(0, (err, buf) => console.log(err, buf))
 ```
 
-## Known issues
-Chrome can stall and never finish if running many `get` calls concurrently.
-
-Specifically this problem occurs when calling the `ReadableStream.getReader.read()` function more than once.
-
 ## License
 
 MIT
