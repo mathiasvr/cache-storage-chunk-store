@@ -100,15 +100,9 @@ class Storage {
     this.closed = true
     this.cachePromise = null
 
-    window.caches.open(this.name).then((cache) => {
-      cache.keys().then((keys) => {
-        keys.forEach((request) => {
-          cache.delete(request)
-        })
-
-        cb(null)
-      })
-    })
+    window.caches.delete(this.name).then(() => {
+      cb(null)
+    }, cb)
   }
 }
 
